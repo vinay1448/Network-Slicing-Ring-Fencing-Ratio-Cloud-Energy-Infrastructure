@@ -1,0 +1,533 @@
+===========================================================================================
+Base iterative heuristic non convex energy aware equation
+==============================================================
+103675.57704816839 = convergence threshold = enew
+ 
+// Parameters for energy consumption
+    private static double zetaCC = 0.99;  // Further improved Efficiency of Compute and Cooling (from 0.98)
+    private static double pComputeCC = 2;  // Further reduced Compute power consumption (Watts)
+    private static double pCoolCC = 5;  // Further reduced Cooling power consumption (Watts)
+    private static double pProcCC = 1;  // Further reduced Processing power consumption (Watts)
+    private static double zetaRF = 0.98;  // Improved Efficiency of Ring Fences
+    private static double pStaticRF = 10;  // Further reduced Static power consumption of RF (Watts)
+    private static double commBandwidth = 1000;  // Communication bandwidth in KB/s
+    private static double commPower = 0.01;  // Further reduced Communication power consumption (Watts)
+    private static double tau = 0.005;  // Reduced Chip Design coefficient
+    private static double taskExecutionTime = 0.02;  // Further reduced task execution time (seconds)
+    private static double dynamicScalingFactor = 1.02;  // Further reduced Dynamic Voltage Scaling (DVS) factor
+    private static double alphaMax = 0.1;  // Further reduced max latency weight
+    private static double betaMin = 0.02;   // Further reduced min latency weight
+ 
+E0total => Total Energy Consumption: 9873864.480777942 Watts
+Cooling Power Consumption: 493693.2240388971 Watts
+Total Energy Consumption with Cooling: 10367557.704816839 Watts
+ 
+// Small Increment Updates for Energy Consumption Parameters
+    private static double zetaCC = 1.00;  // Small increase from 0.99 to 1.00 (Efficiency of Compute and Cooling)
+    private static double pComputeCC = 2.1;  // Small increase from 2 to 2.1 (Compute power consumption)
+    private static double pCoolCC = 5.1;  // Small increase from 5 to 5.1 (Cooling power consumption)
+    private static double pProcCC = 1.05;  // Small increase from 1 to 1.05 (Processing power consumption)
+    private static double zetaRF = 0.99;  // Small increase from 0.98 to 0.99 (Efficiency of Ring Fences)
+    private static double pStaticRF = 10.1;  // Small increase from 10 to 10.1 (Static power consumption of Ring Fences)
+    private static double commBandwidth = 1010;  // Small increase from 1000 to 1010 (Communication bandwidth in KB/s)
+    private static double commPower = 0.0101;  // Small increase from 0.01 to 0.0101 (Communication power consumption)
+    private static double tau = 0.0051;  // Small increase from 0.005 to 0.0051 (Chip Design coefficient)
+    private static double taskExecutionTime = 0.0205;  // Small increase from 0.02 to 0.0205 seconds
+    private static double dynamicScalingFactor = 1.03;  // Small increase from 1.02 to 1.03 (Dynamic Voltage Scaling factor)
+    private static double alphaMax = 0.105;  // Small increase from 0.1 to 0.105 (Max latency weight)
+    private static double betaMin = 0.021;  // Small increase from 0.02 to 0.021 (Min latency weight)
+ 
+E1total => Total Energy Consumption: 10367571.8794516 Watts
+Cooling Power Consumption: 518378.59397258004 Watts
+Total Energy Consumption with Cooling: 10885950.473424181 Watts
+ 
+10885950.473424181 - 10367557.704816839 = 518392.768607
+ 
+// Parameters for energy consumption with small marginal increases
+private static double zetaCC = 1.01;  // Increased Efficiency of Compute and Cooling (from 0.99)
+private static double pComputeCC = 2.2;  // Increased Compute power consumption (Watts) from 2
+private static double pCoolCC = 5.2;  // Increased Cooling power consumption (Watts) from 5
+private static double pProcCC = 1.06;  // Increased Processing power consumption (Watts) from 1
+private static double zetaRF = 1.0;  // Increased Efficiency of Ring Fences from 0.98
+private static double pStaticRF = 10.2;  // Increased Static power consumption of RF (Watts) from 10
+private static double commBandwidth = 1050;  // Increased Communication bandwidth in KB/s from 1000
+private static double commPower = 0.011;  // Increased Communication power consumption (Watts) from 0.01
+private static double tau = 0.0052;  // Slightly increased Chip Design coefficient from 0.005
+private static double taskExecutionTime = 0.021;  // Increased task execution time (seconds) from 0.02
+private static double dynamicScalingFactor = 1.04;  // Increased Dynamic Voltage Scaling (DVS) factor from 1.02
+private static double alphaMax = 0.11;  // Increased max latency weight from 0.1
+private static double betaMin = 0.022;  // Increased min latency weight from 0.02
+ 
+E2total => Total Energy Consumption: 10472756.211681012 Watts
+Cooling Power Consumption: 523637.8105840506 Watts
+Total Energy Consumption with Cooling: 10996394.022265062 Watts
+ 
+10996394.022265062 - 10885950.473424181 = 110443.548841
+ 
+// Parameters for energy consumption with small marginal increases
+private static double zetaCC = 1.001;  // Increased Efficiency of Compute and Cooling (from 0.99)
+private static double pComputeCC = 2.25;  // Increased Compute power consumption (Watts) from 2
+private static double pCoolCC = 5.25;  // Increased Cooling power consumption (Watts) from 5
+private static double pProcCC = 1.065;  // Increased Processing power consumption (Watts) from 1
+private static double zetaRF = 1.05;  // Increased Efficiency of Ring Fences from 0.98
+private static double pStaticRF = 10.25;  // Increased Static power consumption of RF (Watts) from 10
+private static double commBandwidth = 1060;  // Increased Communication bandwidth in KB/s from 1000
+private static double commPower = 0.0115;  // Increased Communication power consumption (Watts) from 0.01
+private static double tau = 0.00525;  // Slightly increased Chip Design coefficient from 0.005
+private static double taskExecutionTime = 0.0215;  // Increased task execution time (seconds) from 0.02
+private static double dynamicScalingFactor = 1.045;  // Increased Dynamic Voltage Scaling (DVS) factor from 1.02
+private static double alphaMax = 0.115;  // Increased max latency weight from 0.1
+private static double betaMin = 0.0225;  // Increased min latency weight from 0.02
+ 
+E3total => Total Energy Consumption: 10527812.199800814 Watts
+Cooling Power Consumption: 526390.6099900407 Watts
+Total Energy Consumption with Cooling: 11054202.809790853 Watts
+ 
+11054202.809790853 - 10996394.022265062 = 57808.7875258
+ 
+Base heuristic non convex AUGMENT algorithm
+==========================================================
+102008.084819 = convergence threshold = enew
+ 
+double totalEnergy = 0.0;
+double processingPower = 0.001;  // Further reduced processing power per cycle
+double coolingFactor = 0.05;  // Adjusted cooling factor to 5% of total energy consumption
+E0total => Total Energy Consumption: 9715055.697000023 Watts
+Cooling Power Consumption: 485752.78485000116 Watts
+Total Energy Consumption with Cooling: 10200808.481850024 Watts
+ 
+double processingPower = 0.00101;  // Very slight increase in processing power per cycle from 0.001 to 0.00105
+double coolingFactor = 0.0501;  // Slightly increased cooling factor to 5.05% of total energy consumption
+E1total => Total Energy Consumption: 9812206.253969999 Watts
+Cooling Power Consumption: 491591.53332389693 Watts
+Total Energy Consumption with Cooling: 10303797.787293896 Watts
+ 
+10303797.787293896 - 10200808.481850024 = 102989.305444
+ 
+double processingPower = 0.001015;  // Smaller increase
+double coolingFactor = 0.05015;  // Smaller increase
+ 
+E2total => Total Energy Consumption: 9860781.532454954 Watts
+Cooling Power Consumption: 494518.19385261595 Watts
+Total Energy Consumption with Cooling: 10355299.726307571 Watts
+ 
+10355299.726307571 - 10303797.787293896 = 51501.9390137
+============================================================
+Base Priority Selection Offloading Algorithm
+===================================================
+double transmissionPower = 5;  // Reduced transmission power
+double systemChannelGain = 50;  // Increased system channel gain
+double localEnergyConsumption = localExecutionTime * 15;  // Further reduced local energy consumption
+double coolingFactor = 0.03;  // Further reduced cooling factor
+
+E0total => Total Energy Consumption: 9584165.249999985 Watts
+Cooling Power Consumption: 287524.95749999955 Watts
+Total Energy Consumption with Cooling: 9871690.207499985 Watts
+
+E1total => Total Energy Consumption: 9616112.467500076 Watts
+Cooling Power Consumption: 293291.4302587523 Watts
+Total Energy Consumption with Cooling: 9909403.897758828 Watts
+
+9909403.897758828 - 9871690.207499985 = 37713.6902588
+
+Preprocessed Dataset program as the Baseline Simulation Environment Pgm
+===========================================================================
+Overall Task Completion Time: 15037.4 seconds
+Total Energy Consumption: 34894.549999999996 Watts
+Cooling Power Consumption: 3.4894549999999995 Watts
+Total Energy Consumption with Cooling: 34898.039455 Watts
+Iteration completed in 152 ms.
+Total convergence time: 152 ms.
+
+iterative heuristic non convex energy aware equation pgm:
+=============================================================
+104662.22312603783 = convergence threshold = enew
+
+ // Parameters for energy consumption
+    private static double zetaCC = 0.99;  // Further improved Efficiency of Compute and Cooling (from 0.98)
+    private static double pComputeCC = 1.95;  // Further reduced Compute power consumption (Watts)
+    private static double pCoolCC = 4.85;  // Further reduced Cooling power consumption (Watts)
+    private static double pProcCC = 1.01;  // Further reduced Processing power consumption (Watts)
+    private static double zetaRF = 1.01;  // Improved Efficiency of Ring Fences
+    private static double pStaticRF = 9.875;  // Further reduced Static power consumption of RF (Watts)
+    private static double commBandwidth = 990;  // Communication bandwidth in KB/s
+    private static double commPower = 0.0101;  // Further reduced Communication power consumption (Watts)
+    private static double tau = 0.00495;  // Reduced Chip Design coefficient
+    private static double taskExecutionTime = 0.02;  // Further reduced task execution time (seconds)
+    private static double dynamicScalingFactor = 1.02;  // Further reduced Dynamic Voltage Scaling (DVS) factor
+    private static double alphaMax = 0.0975;  // Further reduced max latency weight
+    private static double betaMin = 0.0195;   // Further reduced min latency weight
+
+E0total => Overall Task Completion Time: 3555.565000000003 seconds
+Total Energy Consumption: 9967830.773908366 Watts
+Cooling Power Consumption: 498391.5386954183 Watts
+Total Energy Consumption with Cooling: 10466222.312603783 Watts
+Iteration completed in 2355 ms.
+
+// Parameters for energy consumption with small increments
+private static double zetaCC = 0.9925;  // Efficiency of Compute and Cooling
+private static double pComputeCC = 1.975;  // Compute power consumption
+private static double pCoolCC = 4.9;  // Cooling power consumption
+private static double pProcCC = 1.02;  // Processing power consumption
+private static double zetaRF = 1.0125;  // Efficiency of Ring Fences
+private static double pStaticRF = 9.9;  // Static power consumption of Ring Fences
+private static double commBandwidth = 1000;  // Communication bandwidth
+private static double commPower = 0.0102;  // Communication power consumption
+private static double tau = 0.005;  // Chip Design coefficient
+private static double taskExecutionTime = 0.0202;  // Task execution time
+private static double dynamicScalingFactor = 1.03;  // Dynamic Voltage Scaling (DVS) factor
+private static double alphaMax = 0.1;  // Max latency weight
+private static double betaMin = 0.02;  // Min latency weight
+
+E1total => Overall Task Completion Time: 3555.565000000003 seconds
+Total Energy Consumption: 10069703.553569214 Watts
+Cooling Power Consumption: 503485.1776784607 Watts
+Total Energy Consumption with Cooling: 10573188.731247675 Watts
+Iteration completed in 2312 ms.
+
+10573188.731247675 - 10466222.312603783 = 106966.418644
+
+// Parameters for energy consumption with another small increment
+private static double zetaCC = 0.995;  // Efficiency of Compute and Cooling
+private static double pComputeCC = 2.0;  // Compute power consumption
+private static double pCoolCC = 4.95;  // Cooling power consumption
+private static double pProcCC = 1.03;  // Processing power consumption
+private static double zetaRF = 1.015;  // Efficiency of Ring Fences
+private static double pStaticRF = 9.925;  // Static power consumption of Ring Fences
+private static double commBandwidth = 1010;  // Communication bandwidth
+private static double commPower = 0.0103;  // Communication power consumption
+private static double tau = 0.00505;  // Chip Design coefficient
+private static double taskExecutionTime = 0.0204;  // Task execution time
+private static double dynamicScalingFactor = 1.04;  // Dynamic Voltage Scaling (DVS) factor
+private static double alphaMax = 0.1025;  // Max latency weight
+private static double betaMin = 0.0205;  // Min latency weight
+
+E2total => Overall Task Completion Time: 3555.565000000003 seconds
+Total Energy Consumption: 10171637.27785919 Watts
+Cooling Power Consumption: 508581.86389295955 Watts
+Total Energy Consumption with Cooling: 10680219.14175215 Watts
+Iteration completed in 2358 ms.
+Total convergence time: (2355 + 2312 + 2358) / 3 = 2341.67ms
+
+10680219.14175215 - 10626695.859191263 = 53523.2825609
+
+heuristic non convex AUGMENT algo pgm
+===================================================
+23650.1534525 = Convergence threshold = enew
+
+double dynamicBandwidth = bandwidth * (1 + Math.random());
+double bandwidthPenalty = dynamicBandwidth < 5 ? 1.5 : 1.0;  // Amplified bandwidth penalty
+double communicationEnergyCost = bandwidth * 3.5;  // Higher communication energy cost multiplier
+double transmissionPowerBase = 8.0;  // Increased transmission power base
+double processingPower = 0.001005;  // Slightly reduced processing power
+double coolingFactor = 0.0495;  // Slightly reduced cooling factor
+
+E0total => Overall Task Completion Time: 990102.8349999993 seconds
+Total Energy Consumption: 2253468.647212048 Watts
+Cooling Power Consumption: 111546.69803699639 Watts
+Total Energy Consumption with Cooling: 2365015.3452490442 Watts
+Iteration completed in 1840 ms.
+
+double dynamicBandwidth = bandwidth * (1.2 + Math.random() * 0.5);  // Slightly more aggressive variation in bandwidth
+double bandwidthPenalty = dynamicBandwidth < 5 ? 1.75 : 1.2;  // Amplified bandwidth penalty
+double communicationEnergyCost = bandwidth * 4.0;  // Increase communication energy cost multiplier
+double transmissionPowerBase = 9.0;  // Increase transmission power base
+double processingPower = 0.00103;  // Slightly increased processing power
+double coolingFactor = 0.051;  // Increased cooling factor
+
+E1total => Overall Task Completion Time: 990102.8349999993 seconds
+Total Energy Consumption: 2309525.081222289 Watts
+Cooling Power Consumption: 117785.77914233672 Watts
+Total Energy Consumption with Cooling: 2427310.8603646257 Watts
+Iteration completed in 1741 ms.
+
+2427310.8603646257 - 2365015.3452490442 = 62295.5151156
+
+double dynamicBandwidth = bandwidth * (1.25 + Math.random() * 0.55);  // Slightly less aggressive variation in bandwidth
+double bandwidthPenalty = dynamicBandwidth < 5 ? 1.85 : 1.25;  // Smaller increase in bandwidth penalty
+double communicationEnergyCost = bandwidth * 4.2;  // Smaller increase in communication energy cost multiplier
+double transmissionPowerBase = 9.2;  // Slightly increased transmission power base
+double processingPower = 0.00104;  // Slightly increased processing power
+double coolingFactor = 0.0515;  // Slightly increased cooling factor
+
+E2total => Overall Task Completion Time: 990102.8349999993 seconds
+Total Energy Consumption: 2331947.6548264083 Watts
+Cooling Power Consumption: 120095.30422356002 Watts
+Total Energy Consumption with Cooling: 2452042.959049968 Watts
+Iteration completed in 1799 ms.
+
+2452042.959049968 - 2427310.8603646257 = 24732.0986853
+
+double dynamicBandwidth = bandwidth * (1.27 + Math.random() * 0.58);  // Smaller variation in bandwidth
+double bandwidthPenalty = dynamicBandwidth < 5 ? 1.87 : 1.27;  // Smaller increase in bandwidth penalty
+double communicationEnergyCost = bandwidth * 4.3;  // Smaller increase in communication energy cost multiplier
+double transmissionPowerBase = 9.3;  // Slightly increased transmission power base
+double processingPower = 0.001045;  // Smaller increase in processing power
+double coolingFactor = 0.0517;  // Slightly increased cooling factor
+
+E3total => Overall Task Completion Time: 990102.8349999993 seconds
+Total Energy Consumption: 2343158.94162845 Watts
+Cooling Power Consumption: 121141.31728219088 Watts
+Total Energy Consumption with Cooling: 2464300.258910641 Watts
+Iteration completed in 1786 ms.
+Total convergence time: (1840 + 1741 + 1799 + 1786) / 4 = 1791.5ms
+
+2464300.258910641 - 2452042.959049968 = 12257.2998607
+
+Priority selection offloading algorithm
+===================
+98848.52461109815 = convergence threshold = enew
+
+double transmissionPower = 5;  // Reduced transmission power
+double systemChannelGain = 50;  // Increased system channel gain
+double localEnergyConsumption = localExecutionTime * 15;  // Further reduced local energy consumption
+double latencyPenalty = 0.1 * (localExecutionTime - transmissionEnergy / systemChannelGain);
+double coolingFactor = 0.03;  // Further reduced cooling factor
+
+E0total => Overall Task Completion Time: 8888.345000000007 seconds
+Total Energy Consumption: 9596944.136999821 Watts
+Cooling Power Consumption: 287908.32410999463 Watts
+Total Energy Consumption with Cooling: 9884852.461109815 Watts
+Iteration completed in 3229 ms.
+
+double transmissionPower = 5.5;  // Smaller increase in transmission power
+double systemChannelGain = 49.5;  // Smaller reduction in system channel gain
+double localEnergyConsumption = localExecutionTime * 15.5;  // Smaller increase in local energy consumption
+double latencyPenalty = 0.15 * (localExecutionTime - transmissionEnergy / systemChannelGain);  // Smaller increase in latency penalty
+double coolingFactor = 0.0325;  // Smaller increase in cooling factor
+
+E1total => Overall Task Completion Time: 8888.345000000007 seconds
+Total Energy Consumption: 9913425.966388723 Watts
+Cooling Power Consumption: 322186.3439076335 Watts
+Total Energy Consumption with Cooling: 10235612.310296357 Watts
+Iteration completed in 3115 ms.
+
+10235612.310296357 - 9884852.461109815 = 350759.849187
+
+double transmissionPower = 6.0;
+double systemChannelGain = 49.0;
+double localEnergyConsumption = localExecutionTime * 16.0;
+double latencyPenalty = 0.2 * (localExecutionTime - transmissionEnergy / systemChannelGain);
+double coolingFactor = 0.035;
+
+E2total => Overall Task Completion Time: 8888.345000000007 seconds
+Total Energy Consumption: 10223162.823186161 Watts
+Cooling Power Consumption: 357810.69881151564 Watts
+Total Energy Consumption with Cooling: 10580973.521997677 Watts
+Iteration completed in 3464 ms.
+
+10580973.521997677 - 10235612.310296357 = 345361.211701
+
+double transmissionPower = 6.18;
+double systemChannelGain = 48.853;
+double localEnergyConsumption = localExecutionTime * 16.192;
+double latencyPenalty = 0.22 * (localExecutionTime - transmissionEnergy / systemChannelGain);
+double coolingFactor = 0.035875;
+
+E3total => Overall Task Completion Time: 8888.345000000007 seconds
+Total Energy Consumption: 10340757.914181938 Watts
+Cooling Power Consumption: 370974.69017127703 Watts
+Total Energy Consumption with Cooling: 10711732.604353216 Watts
+Iteration completed in 3091 ms.
+
+10711732.604353216 - 10580973.521997677 = 130759.082356
+
+double transmissionPower = 6.19545;
+double systemChannelGain = 48.731;
+double localEnergyConsumption = localExecutionTime * 16.23248;
+double latencyPenalty = 0.2222 * (localExecutionTime - transmissionEnergy / systemChannelGain);
+double coolingFactor = 0.03594675;
+
+E4total => Overall Task Completion Time: 8888.345000000007 seconds
+Total Energy Consumption: 10365465.3901825 Watts
+Cooling Power Consumption: 372604.7930145428 Watts
+Total Energy Consumption with Cooling: 10738070.183197044 Watts
+Iteration completed in 3144 ms.
+Total convergence time: (3229 + 3115 + 3464 + 3091 + 3144) / 5 = 3208.6ms
+
+10738070.183197044 - 10711732.604353216 = 26337.5788438
+
+PreprocessedCSVScalable Dataset program as the Baseline Simulation Environment Pgm
+===========================================================================
+Overall Task Completion Time: 6682.400000000001 seconds
+=== Energy Consumption Results ===
+Total Energy Consumption (including communication + idle + cloudlets): 14587.890000000005 Watts
+Cooling Power Consumption: 1.4587890000000006 Watts
+Total Energy Consumption with Cooling: 14589.348789000005 Watts
+Iteration completed in 160 ms.
+Convergence completed in 160 ms.
+
+aggregated iterative heuristic non convex energy aware equation pgm:
+=============================================================
+899435.987026 = convergence threshold = enew
+
+    double coolingFactor = 0.15;  // Revised 15% cooling overhead
+
+ // Parameters for energy consumption
+    private static double zetaCC = 0.99;  // Further improved Efficiency of Compute and Cooling (from 0.98)
+    private static double pComputeCC = 0.2;        // Compute power (reduced from 1.95)
+    private static double pCoolCC = 0.3;           // Cooling power (reduced from 4.85)
+    private static double pProcCC = 0.2;           // Processing power (reduced from 1.01)
+    private static double zetaRF = 1.01;  // Improved Efficiency of Ring Fences
+    private static double pStaticRF =  0.5;         // Static power for ring fences (reduced from 9.875)
+    private static double commBandwidth = 990;  // Communication bandwidth in KB/s  
+    private static double commPower = 0.001;       // Communication power (reduced from 0.0101)
+    private static double tau = 0.001;             // Chip design coefficient (reduced from 0.00495)    
+    private static double taskExecutionTime = 0.02;  // Further reduced task execution time (seconds)
+    private static double dynamicScalingFactor =  1.001;  // Dynamic Voltage Scaling factor (reduced from 1.02)
+    private static double alphaMax = 0.01;         // Max latency weight (reduced from 0.0975)
+    private static double betaMin = 0.005;          // Min latency weight (reduced from 0.0195)
+
+E0total => Overall Task Completion Time: 1425.634999999996 seconds
+Total Energy Consumption: 786034.7117580147 Watts
+Cooling Power Consumption: 117905.20676370221 Watts
+Total Energy Consumption with Cooling: 903939.918521717 Watts
+Iteration completed in 679 ms.
+
+// Parameters for energy consumption with minimal increments
+	private static double zetaCC = 0.99005;          // Slight increase in Efficiency of Compute and Cooling
+	private static double pComputeCC = 0.202;        // Slight increase in Compute power
+	private static double pCoolCC = 0.302;            // Slight increase in Cooling power
+	private static double pProcCC = 0.202;           // Slight increase in Processing power
+	private static double zetaRF = 1.01005;          // Slight increase in Ring Fences efficiency
+	private static double pStaticRF = 0.505;         // Slight increase in Static power for ring fences
+	private static double commBandwidth = 990.5;     // Slight increase in Communication bandwidth
+	private static double commPower = 0.001005;       // Slight increase in Communication power
+	private static double tau = 0.00101;             // Slight increase in Chip design coefficient
+	private static double taskExecutionTime = 0.02002; // Minor increase in Task execution time
+	private static double dynamicScalingFactor = 1.0011; // Minor increase in Dynamic Voltage Scaling factor
+	private static double alphaMax = 0.01005;        // Minor increase in Max latency weight
+	private static double betaMin = 0.00505;         // Minor increase in Min latency weight
+
+VM 11 is idle. Idle energy consumption: 50.0 watts.
+VM 21 is idle. Idle energy consumption: 50.0 watts.
+VM 27 is idle. Idle energy consumption: 50.0 watts.
+
+E1total => Overall Task Completion Time: 1425.634999999996 seconds
+Total Energy Consumption: 793876.8015577594 Watts
+Cooling Power Consumption: 119081.5202336639 Watts
+Total Energy Consumption with Cooling: 912958.3217914233 Watts
+Iteration completed in 715 ms.
+Total Convergence Time => (679 + 715) / 2 = 697ms
+
+912958.3217914233 - 903939.918521717 = 9018.40326971
+
+aggregated heuristic non convex AUGMENT algo pgm
+===================================================
+100082.75159639532 = convergence threshold = enew
+
+E0total => Overall Task Completion Time: 526882.2099999997 seconds
+Total Energy Consumption: 9716771.999650031 Watts
+Cooling Power Consumption: 291503.15998950094 Watts
+Total Energy Consumption with Cooling: 10008275.159639532 Watts
+Iteration completed in 774 ms.
+
+double dynamicBandwidth = bandwidth * (1 + Math.random() * 0.0525); // Small increase in variation (5.25%)
+double bandwidthPenalty = dynamicBandwidth < 50 ? 1.205 : 1.0;       // Slight increase in penalty factor
+double communicationEnergyCost = bandwidth * 1.53;                   // Incremented energy cost multiplier
+double transmissionPowerBase = 3.53;                                 // Small increase in transmission power
+double processingPower = 0.0101;                                     // Slight increase in processing power
+double coolingFactor = 0.0305;                                       // Slight increase in cooling factor
+
+E1total => Overall Task Completion Time: 526882.2099999997 seconds
+Total Energy Consumption: 9813939.719646523 Watts
+Cooling Power Consumption: 299325.1614492189 Watts
+Total Energy Consumption with Cooling: 10113264.881095741 Watts
+Iteration completed in 717 ms.
+
+10113264.881095741 - 10008275.159639532 = 104989.721456
+
+double dynamicBandwidth = bandwidth * (1 + Math.random() * 0.055);    // Keep previous variation
+double bandwidthPenalty = dynamicBandwidth < 50 ? 1.21 : 1.0;         // Keep previous penalty factor
+double communicationEnergyCost = bandwidth * 1.555;                   // Slightly lower energy cost increase
+double transmissionPowerBase = 3.57;                                  // Keep previous transmission power
+double processingPower = 0.01015;                                     // Smaller increment in processing power
+double coolingFactor = 0.031;                                         // Keep previous cooling factor
+
+E2total => Overall Task Completion Time: 526882.2099999997 seconds
+Total Energy Consumption: 9862523.579644775 Watts
+Cooling Power Consumption: 305738.23096898803 Watts
+Total Energy Consumption with Cooling: 10168261.810613763 Watts
+Iteration completed in 773 ms.
+Total convergence time: (774 + 717 + 773) / 3 = 754.66ms
+
+10168261.810613763 - 10113264.881095741 = 54996.929518
+
+aggregated Priority Selection Offloading Algorithm
+=================================================
+247125.37796777703 = convergence threshold = enew 
+
+double transmissionPower = 5;  // Reduced transmission power
+double systemChannelGain = 50;  // Increased system channel gain
+double localEnergyConsumption = localExecutionTime * 15;  // Further reduced local energy consumption
+double latencyPenalty = 0.1 * (localExecutionTime - transmissionEnergy / systemChannelGain);
+double coolingFactor = 0.03;  // Further reduced cooling factor
+
+Overall Task Completion Time: 3563.8375000000037 seconds
+========== ENERGY CONSUMPTION RESULTS ==========
+E0total => Total Energy Consumption: 23992755.142502625 Watts
+Cooling Power Consumption: 719782.6542750787 Watts
+Total Energy Consumption with Cooling: 24712537.796777703 Watts
+Iteration completed in 1111 ms.
+
+Overall Task Completion Time: 3563.8375000000037 seconds
+========== ENERGY CONSUMPTION RESULTS ==========
+E1total => Total Energy Consumption: 24783959.71597533 Watts
+Cooling Power Consumption: 805478.6907691982 Watts
+Total Energy Consumption with Cooling: 25589438.40674453 Watts
+Iteration completed in 750 ms.
+
+25589438.40674453  - 24712537.796777703 = 876900.609967
+
+double transmissionPower = 5.5;  // Smaller increase in transmission power
+double systemChannelGain = 49.5;  // Smaller reduction in system channel gain
+double localEnergyConsumption = localExecutionTime * 15.5;  // Smaller increase in local energy consumption
+double latencyPenalty = 0.15 * (localExecutionTime - transmissionEnergy / systemChannelGain);  // Smaller increase in latency penalty
+double coolingFactor = 0.0325;  // Smaller increase in cooling factor
+
+Overall Task Completion Time: 3563.8375000000037 seconds
+========== ENERGY CONSUMPTION RESULTS ==========
+E2total => Total Energy Consumption: 25558301.85796551 Watts
+Cooling Power Consumption: 894540.565028793 Watts
+Total Energy Consumption with Cooling: 26452842.422994304 Watts
+Iteration completed in 764 ms.
+
+26452842.422994304 - 25589438.40674453 = 863404.01625
+
+double transmissionPower = 6.0;
+double systemChannelGain = 49.0;
+double localEnergyConsumption = localExecutionTime * 16.0;
+double latencyPenalty = 0.2 * (localExecutionTime - transmissionEnergy / systemChannelGain);
+double coolingFactor = 0.035;
+
+Overall Task Completion Time: 3563.8375000000037 seconds
+========== ENERGY CONSUMPTION RESULTS ==========
+E3total => Total Energy Consumption: 25852289.58546321 Watts
+Cooling Power Consumption: 927450.8888784926 Watts
+Total Energy Consumption with Cooling: 26779740.474341705 Watts
+Iteration completed in 795 ms.
+
+26779740.474341705 - 26452842.422994304 = 326898.051347
+
+double transmissionPower = 6.18;
+double systemChannelGain = 48.853;
+double localEnergyConsumption = localExecutionTime * 16.192;
+double latencyPenalty = 0.22 * (localExecutionTime - transmissionEnergy / systemChannelGain);
+double coolingFactor = 0.035875;
+
+double transmissionPower = 6.19545;
+double systemChannelGain = 48.731;
+double localEnergyConsumption = localExecutionTime * 16.23248;
+double latencyPenalty = 0.2222 * (localExecutionTime - transmissionEnergy / systemChannelGain);
+double coolingFactor = 0.03594675;
+
+Overall Task Completion Time: 3563.8375000000037 seconds
+========== ENERGY CONSUMPTION RESULTS ==========
+E4total => Total Energy Consumption: 25914058.275455646 Watts
+Cooling Power Consumption: 931526.1743132352 Watts
+Total Energy Consumption with Cooling: 26845584.449768882 Watts
+Iteration completed in 839 ms.
+Total convergence time: (1111 + 750 + 764 + 795 + 839) / 5 = 851.8ms
+
+26845584.449768882 - 26779740.474341705 = 65843.9754272
+

@@ -1,0 +1,53 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowVPCAccessToBucket",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::aggregatedlambdabucketoutput",
+                "arn:aws:s3:::aggregatedlambdabucketoutput/*"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "aws:SourceVpc": [
+                        "vpc-09f9d1d65f7e278a8",
+                        "vpc-0e4400ab695a80820",
+                        "vpc-01727f8d97081123b",
+                        "vpc-0045e589f839767e6",
+                        "vpc-06dfe6eec0ff7fcd0"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "AllowVPCEndpointAccess",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::aggregatedlambdabucketoutput",
+                "arn:aws:s3:::aggregatedlambdabucketoutput/*"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "aws:sourceVpce": [
+                        "vpce-0ed4d9c35c102a08b",
+                        "vpce-0c31c290d346088b7",
+                        "vpce-01a4efed813d019bf",
+                        "vpce-0c1f72098758dd653",
+                        "vpce-00c1e565d5b0ece18"
+                    ]
+                }
+            }
+        }
+    ]
+}

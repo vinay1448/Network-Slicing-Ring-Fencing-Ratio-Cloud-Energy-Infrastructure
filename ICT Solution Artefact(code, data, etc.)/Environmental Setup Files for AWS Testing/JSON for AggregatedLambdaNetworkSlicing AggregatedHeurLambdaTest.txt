@@ -1,0 +1,6 @@
+{
+  "bucketName": "aggregatedlambdabucketoutput",
+  "inputFastStorageKey": "preprocessed_fastStorage.csv",
+  "inputRndKey": "preprocessed_rnd.csv",
+  "outputFileKeyPrefix": "simulation_output_aggregatedheuristicnonconvex"
+}

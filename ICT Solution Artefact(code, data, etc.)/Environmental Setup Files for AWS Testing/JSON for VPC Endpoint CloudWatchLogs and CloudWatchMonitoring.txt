@@ -1,0 +1,30 @@
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "AllowCloudWatchLogsAccess",
+			"Effect": "Allow",
+			"Principal": "*",
+			"Action": [
+				"logs:CreateLogGroup",
+				"logs:CreateLogStream",
+				"logs:PutLogEvents"
+			],
+			"Resource": "*"
+		},
+		{
+			"Sid": "AllowCloudWatchMetricsAccess",
+			"Effect": "Allow",
+			"Principal": "*",
+			"Action": [
+				"cloudwatch:PutMetricData"
+			],
+			"Resource": "*",
+			"Condition": {
+				"StringEquals": {
+					"cloudwatch:namespace": "AggregatedMetricsMonitor"
+				}
+			}
+		}
+	]
+}
